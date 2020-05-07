@@ -1,0 +1,49 @@
+sshd[1080]: Server listening on 0.0.0.0 port 22.
+sshd[1080]: Server listening on :: port 22.
+sshd[1217]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=172.30.0.1  user=foo
+sshd[1217]: Failed password for foo from 172.30.0.1 port 45952 ssh2
+sshd[1217]: Accepted password for foo from 172.30.0.1 port 45952 ssh2
+sshd[1217]: pam_unix(sshd:session): session opened for user foo by (uid=0)
+sshd[1217]: pam_systemd(sshd:session): Failed to connect to system bus: No such file or directory
+sshd[1217]: pam_env(sshd:session): Unable to open env file: /etc/default/locale: No such file or directory
+su[1232]: Successful su for root by foo
+su[1232]: + /dev/pts/1 foo:root
+su[1232]: pam_env(su:session): Unable to open env file: /etc/default/locale: No such file or directory
+su[1232]: pam_unix(su:session): session opened for user root by foo(uid=1000)
+su[1232]: pam_systemd(su:session): Failed to connect to system bus: No such file or directory
+su[1232]: pam_unix(su:session): session closed for user root
+sshd[1228]: Received disconnect from 172.30.0.1 port 45952:11: disconnected by user
+sshd[1228]: Disconnected from user foo 172.30.0.1 port 45952
+sshd[1217]: pam_unix(sshd:session): session closed for user foo
+sshd[1239]: Invalid user admin from 172.30.0.1 port 45960
+sshd[1239]: pam_unix(sshd:auth): check pass; user unknown
+sshd[1239]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=172.30.0.1
+sshd[1239]: Failed password for invalid user admin from 172.30.0.1 port 45960 ssh2
+sshd[1239]: pam_unix(sshd:auth): check pass; user unknown
+sshd[1239]: Failed password for invalid user admin from 172.30.0.1 port 45960 ssh2
+sshd[1239]: pam_unix(sshd:auth): check pass; user unknown
+sshd[1239]: Failed password for invalid user admin from 172.30.0.1 port 45960 ssh2
+sshd[1239]: Connection closed by invalid user admin 172.30.0.1 port 45960 [preauth]
+sshd[1239]: PAM 2 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=172.30.0.1
+sshd[1241]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=172.30.0.1  user=foo
+sshd[1241]: Failed password for foo from 172.30.0.1 port 45962 ssh2
+sshd[1241]: Accepted password for foo from 172.30.0.1 port 45962 ssh2
+sshd[1241]: pam_unix(sshd:session): session opened for user foo by (uid=0)
+sshd[1241]: pam_systemd(sshd:session): Failed to connect to system bus: No such file or directory
+sshd[1241]: pam_env(sshd:session): Unable to open env file: /etc/default/locale: No such file or directory
+su[1260]: No passwd entry for user 'ubnt'
+su[1260]: FAILED su for ubnt by foo
+su[1260]: - /dev/pts/1 foo:ubnt
+su[1262]: pam_unix(su:auth): authentication failure; logname=foo uid=1000 euid=0 tty=/dev/pts/1 ruser=foo rhost=  user=root
+su[1262]: pam_authenticate: Authentication failure
+su[1262]: FAILED su for root by foo
+su[1262]: - /dev/pts/1 foo:root
+su[1263]: Successful su for root by foo
+su[1263]: + /dev/pts/1 foo:root
+su[1263]: pam_env(su:session): Unable to open env file: /etc/default/locale: No such file or directory
+su[1263]: pam_unix(su:session): session opened for user root by foo(uid=1000)
+su[1263]: pam_systemd(su:session): Failed to connect to system bus: No such file or directory
+useradd[1269]: new group: name=backdoor, GID=1001
+useradd[1269]: new user: name=backdoor, UID=1001, GID=1001, home=/home/backdoor, shell=/bin/sh
+passwd[1275]: pam_unix(passwd:chauthtok): password changed for backdoor
+su[1263]: pam_unix(su:session): session closed for user root
