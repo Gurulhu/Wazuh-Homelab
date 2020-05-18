@@ -43,11 +43,10 @@ services:
     image: wazuh/wazuh-kibana:3.12.2_7.6.2
     hostname: kibana
     restart: always
+    environment:
+      - "WAZUH_API_URL=https://wazuh_master"
     depends_on:
       - elasticsearch
-    links:
-      - elasticsearch:elasticsearch
-      - wazuh_master:wazuh
 
   nginx:
     image: wazuh/wazuh-nginx:3.12.2_7.6.2
@@ -62,6 +61,14 @@ services:
     depends_on:
       - kibana
 
+  wazuh_loadbalancer:
+    image: wazuh-lb
+    restart: always
+    environment:
+      - NGINX_PORT=443
+    depends_on:
+      - wazuh_worker
+
   wazuh_worker:
     image: wazuh/wazuh:3.12.2_7.6.2
     restart: always
@@ -74,16 +81,6 @@ services:
       - wazuh_master
     deploy:
       replicas: 2
-
-  loadbalancer:
-    image: wazuh-lb
-    restart: always
-    environment:
-      - NGINX_PORT=443
-      - WORKERS=2 #Needs to be equal to # of workers
-    depends_on:
-      - wazuh_worker
-
 
   agent:
     image: wazuh-agent

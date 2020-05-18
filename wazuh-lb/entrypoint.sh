@@ -9,16 +9,13 @@ fi
 echo "Configuring NGINX"
 mkdir /var/log/nginx
 
-SERVERS=`seq -f "    server wazuh_wazuh_worker_%g:1514;" ${WORKERS}`
-
 echo "upstream master {
-    server wazuh_wazuh_master_1:1515;
+    server wazuh_master:1515;
 }
 
 upstream mycluster {
 hash \$remote_addr consistent;
-    server wazuh_wazuh_master_1:1514;
-$SERVERS
+    server wazuh_worker:1514;
     }
 
     server {

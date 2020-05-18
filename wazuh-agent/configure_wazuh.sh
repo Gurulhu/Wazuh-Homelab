@@ -2,7 +2,7 @@ echo "sleeping randomly"
 sleep $[ ( $RANDOM % 50 )  + 30 ]s
 
 sed -i "s/udp/tcp/g" /var/ossec/etc/ossec.conf
-sed -i "s/MANAGER_IP/wazuh_loadbalancer_1/g" /var/ossec/etc/ossec.conf
+sed -i "s/MANAGER_IP/wazuh_loadbalancer/g" /var/ossec/etc/ossec.conf
 
 echo "
 <ossec_config>
@@ -30,7 +30,7 @@ chown root:ossec /var/ossec/etc/ossec.conf
 
 /usr/sbin/rsyslogd
 
-/var/ossec/bin/agent-auth -m wazuh_loadbalancer_1
+/var/ossec/bin/agent-auth -m wazuh_loadbalancer
 
 /var/ossec/bin/ossec-control restart
 
