@@ -62,7 +62,7 @@ services:
       - kibana
 
   wazuh_loadbalancer:
-    image: wazuh-lb
+    image: wazuh-loadbalancer
     restart: always
     environment:
       - NGINX_PORT=443
