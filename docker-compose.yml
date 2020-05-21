@@ -1,5 +1,5 @@
 # Wazuh App Copyright (C) 2020 Wazuh Inc. (License GPLv2)
-version: '2'
+version: '3'
 
 services:
   wazuh_master:
@@ -16,6 +16,8 @@ services:
       - "1515:1515"
       - "514:514/udp"
       - "55000:55000"
+    deploy:
+      mode: global
 
   elasticsearch:
     image: wazuh/wazuh-elasticsearch:3.12.2_7.6.2
@@ -32,17 +34,19 @@ services:
       memlock:
         soft: -1
         hard: -1
-    mem_limit: 2g
+    deploy:
+      resources:
+        limits:
+          memory: 4g
 
   kibana:
     image: wazuh/wazuh-kibana:3.12.2_7.6.2
     hostname: kibana
     restart: always
+    environment:
+      - "WAZUH_API_URL=https://wazuh_master"
     depends_on:
       - elasticsearch
-    links:
-      - elasticsearch:elasticsearch
-      - wazuh_master:wazuh
 
   nginx:
     image: wazuh/wazuh-nginx:3.12.2_7.6.2
@@ -56,8 +60,14 @@ services:
       - "443:443"
     depends_on:
       - kibana
-    links:
-      - kibana:kibana
+
+  wazuh_loadbalancer:
+    image: wazuh-loadbalancer
+    restart: always
+    environment:
+      - NGINX_PORT=443
+    depends_on:
+      - wazuh_worker
 
   wazuh_worker:
     image: wazuh/wazuh:3.12.2_7.6.2
@@ -69,20 +79,8 @@ services:
       - "./wazuh-worker/02-config_cluster.sh:/entrypoint-scripts/02-config_cluster.sh"
     depends_on:
       - wazuh_master
-    links:
-      - wazuh_master:wazuh
-
-  loadbalancer:
-    image: wazuh-lb
-    restart: always
-    environment:
-      - NGINX_PORT=443
-      - WORKERS=4
-    depends_on:
-      - wazuh_worker
-    links:
-      - wazuh_master:wazuh_master
-      - wazuh_worker:wazuh_worker
+    deploy:
+      replicas: 2
 
   agent:
     image: wazuh-agent
@@ -92,5 +90,5 @@ services:
       - EVENTS_PER_SECOND=1000 #max 1000
     depends_on:
       - loadbalancer
-    links:
-      - loadbalancer:wazuh
+    deploy:
+      replicas: 10
