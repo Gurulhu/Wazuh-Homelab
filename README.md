@@ -13,13 +13,10 @@ All agents deployed will generate logs after ~30 seconds, creating fake sshd log
 This behavior is controlled by the sshd_log_generator.sh, and uses the cropped.log as base. The original logs are kept in the sample.log if you might need it.
 
 ## How to Use
-Providing you have docker-compose and docker installed, you just need to build our custom images and run the compose.
+Assuming your machine is already registered as a swarm node, you just need to build our custom images and run the compose.
 I made a handy script to build then all so you just need to run:
 
 ```bash
 build.sh 
-docker-compose down --remove-orphans 
-docker-compose up --scale wazuh_worker=4 --scale agent=10
+docker stack deploy wazuh -c docker-compose.yml
 ```
-
-### Note: make sure that the environment variable WORKERS in the loadbalancer compose is equal to the # of workers you're deploying. The loadbalancer will fail if WORKERS is greater, or won't route correctly if it's lesser.
